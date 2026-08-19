@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weatherly — Sidecar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap');
+        :root {
+            --bg: #0e0e10; --surface: #18181b; --surface-2: #1e1e22; --border: #27272a;
+            --text: #fafafa; --text-dim: #a1a1aa; --accent: #38bdf8; --accent-light: #7dd3fc;
+            --green: #22c55e;
+            --font: 'Inter', system-ui, -apple-system, sans-serif;
+            --display: 'Fraunces', Georgia, serif;
+            --label: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font); background: var(--bg); color: var(--text);
+            line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh;
+            display: flex; flex-direction: column; }
+        a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+        a:hover { color: var(--accent-light); }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(14,14,16,0.85); backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border); padding: 0 2rem; }
+        nav .inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center;
+            justify-content: space-between; height: 60px; }
+        nav .logo { font-family: var(--display); font-weight: 700; font-size: 1.1rem;
+            color: var(--text); letter-spacing: -0.01em; }
+        nav .logo span { color: var(--accent); }
+        nav .back { color: var(--text-dim); font-size: 0.78rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.05em; }
+        nav .back:hover { color: var(--text); }
+        .section-wrap { padding: 3rem 2rem; max-width: 1000px; margin: 0 auto; width: 100%; }
+        .section-rule { border-top: 2px solid var(--text); padding-top: 0.75rem; margin-bottom: 2rem; }
+        .section-rule h2 { font-family: var(--label); font-size: 0.72rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.12em; color: var(--text); }
+        .hero { padding: 8rem 2rem 3rem; max-width: 1000px; margin: 0 auto; width: 100%; }
+        .hero-logo { background: #fff; border: 1px solid var(--border); padding: 2rem 2.5rem;
+            margin-bottom: 2rem; display: flex; align-items: center; min-height: 130px; }
+        .hero-logo img { max-width: 420px; width: 100%; height: auto; }
+        .hero-status { display: inline-flex; align-items: center; gap: 0.35rem;
+            font-family: var(--label); font-size: 0.62rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;
+            padding: 0.25rem 0.6rem; color: var(--accent); border: 1px solid var(--accent); }
+        .hero-status .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor;
+            animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .hero h1 { font-family: var(--display); font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-weight: 600; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1rem; }
+        .hero h1 em { font-style: italic; color: var(--accent); }
+        .hero p { font-size: 1.1rem; color: var(--text-dim); max-width: 640px; line-height: 1.7; }
+        .meta-strip { display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 2rem;
+            padding-top: 1.5rem; border-top: 1px solid var(--border); }
+        .meta-item .meta-val { font-family: var(--display); font-size: 1.15rem; font-weight: 600; }
+        .meta-item .meta-lbl { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.15rem;
+            text-transform: uppercase; letter-spacing: 0.06em; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1.25rem; }
+        .feature-card { background: var(--surface); border: 1px solid var(--border); padding: 1.75rem; }
+        .feature-card .fi { font-size: 1.2rem; margin-bottom: 0.75rem; color: var(--accent); }
+        .feature-card h3 { font-family: var(--display); font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .feature-card p { color: var(--text-dim); font-size: 0.85rem; line-height: 1.65; }
+        .list-clean { list-style: none; display: grid; gap: 0.85rem; }
+        .list-clean li { display: flex; gap: 0.75rem; color: var(--text-dim);
+            font-size: 0.92rem; line-height: 1.6; }
+        .list-clean li::before { content: '\25B8'; color: var(--accent); font-size: 0.9rem; flex-shrink: 0; }
+        .list-clean li strong { color: var(--text); font-weight: 600; }
+        .code-block { background: var(--surface); border: 1px solid var(--border);
+            padding: 1.5rem; font-family: 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 0.82rem; color: var(--text-dim); overflow-x: auto; line-height: 1.8; }
+        .code-block .cmt { color: #52525b; }
+        .code-block .cmd { color: var(--accent-light); }
+        .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;
+            font-size: 0.85rem; font-weight: 600; border: 1.5px solid var(--accent); color: var(--accent);
+            transition: all 0.2s; }
+        .btn:hover { background: var(--accent); color: var(--bg); }
+        .btn.solid { background: var(--accent); color: var(--bg); }
+        .btn.solid:hover { background: var(--accent-light); border-color: var(--accent-light); color: var(--bg); }
+        .note { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+            padding: 1.25rem 1.5rem; color: var(--text-dim); font-size: 0.88rem; line-height: 1.7; }
+        footer { margin-top: auto; border-top: 1px solid var(--border); padding: 1.5rem 2rem;
+            display: flex; justify-content: space-between; align-items: center; color: var(--text-dim);
+            font-size: 0.72rem; max-width: 1000px; margin-left: auto; margin-right: auto; width: 100%; }
+        footer a { color: var(--text-dim); } footer a:hover { color: var(--text); }
+        @media (max-width: 768px) { .meta-strip { gap: 1.25rem; } footer { flex-direction: column; gap: 0.5rem; text-align: center; } }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="inner">
+        <a href="index.html" class="logo">Sidecar<span>&nbsp;&#9632;</span></a>
+        <a href="index.html#brands" class="back">&larr; All Products</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-logo"><img src="weatherly.svg" alt="Weatherly"></div>
+    <div class="hero-status"><span class="dot"></span> In-Flight &middot; Building</div>
+    <h1>Environmental intelligence,<br><em>unified.</em></h1>
+    <p>Weatherly combines weather forecasting, climate projections, natural disaster monitoring, risk assessment, and professional reporting in a single, free, zero-backend single-page app — powered entirely by free APIs, with no keys, no backend, and no costs.</p>
+    <div class="meta-strip">
+        <div class="meta-item"><div class="meta-val">React 18 + Vite 6</div><div class="meta-lbl">Frontend</div></div>
+        <div class="meta-item"><div class="meta-val">TypeScript</div><div class="meta-lbl">Language</div></div>
+        <div class="meta-item"><div class="meta-val">Zero-Backend</div><div class="meta-lbl">Architecture</div></div>
+        <div class="meta-item"><div class="meta-val">Climate &amp; Risk</div><div class="meta-lbl">Vertical</div></div>
+    </div>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>What It Does</h2></div>
+    <div class="feature-grid">
+        <div class="feature-card"><div class="fi">&#9728;</div><h3>Weather Intelligence</h3><p>Live conditions, next-hour precipitation, 24-hour and 16-day forecasts with a dynamic, condition-aware gradient.</p></div>
+        <div class="feature-card"><div class="fi">&#9673;</div><h3>Long-Range Outlook</h3><p>Real forecasts for ~16 days, then climatological estimates with confidence bands out to a decade ahead.</p></div>
+        <div class="feature-card"><div class="fi">&#9873;</div><h3>Interactive Maps</h3><p>5 basemaps, 6 weather overlay layers with legends, directional wind arrows, and a GeoRadar 3D terrain mesh.</p></div>
+        <div class="feature-card"><div class="fi">&#9888;</div><h3>Disaster Monitoring</h3><p>USGS, NASA EONET, and GDACS feeds on an interactive world map — filter by type, date, and natural-language search.</p></div>
+        <div class="feature-card"><div class="fi">&#9678;</div><h3>Risk Assessment</h3><p>A 0–100 risk score blending weather severity, disaster proximity, air quality, and terrain exposure.</p></div>
+        <div class="feature-card"><div class="fi">&#9889;</div><h3>Threshold Alerting</h3><p>Custom rules across 10 metrics with browser notifications, per-location cooldowns, and local persistence.</p></div>
+        <div class="feature-card"><div class="fi">&#9636;</div><h3>PDF &amp; Email Reports</h3><p>One-click A4 intelligence reports plus daily/weekly email summaries via Web3Forms — no backend needed.</p></div>
+        <div class="feature-card"><div class="fi">&#9635;</div><h3>PWA &amp; Offline</h3><p>Installable with a service worker caching API responses and map tiles for offline use.</p></div>
+        <div class="feature-card"><div class="fi">&#9670;</div><h3>Auto-Disaster Alerts</h3><p>Automatic monitoring for M6+ earthquakes and Cat 3+ cyclones with a top-of-app alert banner.</p></div>
+    </div>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>Why It Matters</h2></div>
+    <ul class="list-clean">
+        <li><strong>One platform</strong> for weather, climate, disasters, risk, and reporting — no tool-hopping.</li>
+        <li><strong>Zero cost, zero keys</strong> — powered entirely by free, CORS-enabled public APIs.</li>
+        <li><strong>Honest forecasting</strong> — real model output to ~16 days, then clearly-labeled climatological estimates.</li>
+        <li><strong>Professional output</strong> — A4 PDF intelligence reports and scheduled email summaries.</li>
+        <li><strong>Works anywhere</strong> — installable PWA with offline caching for field use.</li>
+    </ul>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>Getting Started</h2></div>
+    <div class="code-block">
+<span class="cmt"># install and run the dev server</span><br>
+<span class="cmd">npm install</span><br>
+<span class="cmd">npm run dev</span> &nbsp;<span class="cmt"># http://localhost:5173</span><br><br>
+<span class="cmt"># type-check + production build to dist/</span><br>
+<span class="cmd">npm run build</span><br>
+<span class="cmd">npm run preview</span> &nbsp;<span class="cmt"># preview the production build</span>
+    </div>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>Honest Long-Range Forecasting</h2></div>
+    <div class="note">Real numerical weather forecasts are only skillful to about 16 days. Days 0–16 use actual high-resolution model output; beyond that, Weatherly shows a climatological estimate — the historical normal from ~12 years of ERA5 reanalysis, optionally blended with CMIP6 projections — drawn as dashed lines with a confidence band that widens with lead time.</div>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>Explore</h2></div>
+    <div class="cta-row">
+        <a href="https://weatherly-kappa-gray.vercel.app" class="btn solid" target="_blank" rel="noopener">Live Demo &rarr;</a>
+        <a href="https://github.com/mitchellray-gh/Weatherly" class="btn" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+</section>
+
+<footer>
+    <span>&copy; Sidecar. All rights reserved.</span>
+    <a href="index.html">&larr; Back to Sidecar</a>
+</footer>
+</body>
+</html>
