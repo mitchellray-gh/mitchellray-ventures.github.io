@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mitchell Ray Ventures</title>
+    <title>Sidecar — Turning Walk-In Sales Into Recurring Revenue</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap');
         :root {
@@ -16,6 +16,7 @@
             --accent: #e8481c;
             --accent-light: #ff6b3d;
             --green: #22c55e;
+            --amber: #f59e0b;
             --font: 'Inter', system-ui, -apple-system, sans-serif;
             --display: 'Fraunces', Georgia, 'Times New Roman', serif;
             --label: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -62,19 +63,27 @@
             transition: color 0.2s; text-transform: uppercase; letter-spacing: 0.05em;
         }
         nav ul li a:hover { color: var(--text); }
-        nav .back-link {
-            font-size: 0.72rem; color: var(--text-dim); font-weight: 500;
-            text-transform: uppercase; letter-spacing: 0.05em;
-            display: inline-flex; align-items: center; gap: 0.35rem;
+
+        /* SECTION UTILITY */
+        .section-wrap { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; width: 100%; }
+        .section-rule { border-top: 2px solid var(--text); padding-top: 0.75rem; margin-bottom: 2.5rem; }
+        .section-rule h2 {
+            font-family: var(--label); font-size: 0.72rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.12em; color: var(--text);
         }
-        nav .back-link:hover { color: var(--text); }
 
         /* HERO */
         .hero {
-            min-height: 70vh; display: flex; align-items: center;
+            min-height: 85vh; display: flex; align-items: center;
             padding: 8rem 2rem 4rem; max-width: 1100px; margin: 0 auto; width: 100%;
         }
-        .hero-content { max-width: 720px; }
+        .hero-content { max-width: 740px; }
+        .hero-logo-mark {
+            display: inline-block; margin-bottom: 1.5rem;
+        }
+        .hero-logo-mark img {
+            height: 48px; width: auto; filter: brightness(0) invert(1);
+        }
         .hero-eyebrow {
             font-family: var(--label); font-size: 0.68rem; font-weight: 700;
             text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent);
@@ -94,16 +103,17 @@
             -webkit-text-fill-color: var(--accent);
         }
         .hero p {
-            font-size: 1.1rem; color: var(--text-dim); max-width: 560px;
+            font-size: 1.1rem; color: var(--text-dim); max-width: 580px;
             line-height: 1.7; margin-bottom: 2rem;
         }
-        .hero-status {
+        .hero-badges { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+        .hero-badge {
             display: inline-flex; align-items: center; gap: 0.5rem;
             border: 1px solid var(--border); padding: 0.45rem 1rem;
             font-size: 0.72rem; color: var(--text-dim); font-weight: 500;
             letter-spacing: 0.04em; text-transform: uppercase;
         }
-        .hero-status .dot {
+        .hero-badge .dot {
             width: 6px; height: 6px; border-radius: 50%; background: var(--green);
             animation: pulse 2s infinite;
         }
@@ -112,137 +122,209 @@
             50% { opacity: 0.4; }
         }
 
-        /* VENTURES GRID */
-        .ventures {
-            padding: 2rem 2rem 6rem; max-width: 1100px; margin: 0 auto; width: 100%;
+        /* THESIS */
+        .thesis-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
         }
-        .ventures-header {
-            border-top: 2px solid var(--text); padding-top: 0.75rem;
-            margin-bottom: 3rem;
-        }
-        .ventures-header h2 {
-            font-family: var(--label); font-size: 0.72rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.12em; color: var(--text);
-        }
-        .venture-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.25rem;
-        }
-        .venture-card {
+        .thesis-card {
             background: var(--surface); border: 1px solid var(--border);
-            padding: 2rem; transition: all 0.25s; position: relative; overflow: hidden;
-            display: flex; flex-direction: column;
+            padding: 2rem; position: relative;
         }
-        .venture-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            background: var(--accent); opacity: 0; transition: opacity 0.25s;
+        .thesis-card .thesis-num {
+            font-family: var(--display); font-size: 2.4rem; font-weight: 600;
+            color: var(--accent); opacity: 0.3; position: absolute; top: 1.25rem; right: 1.5rem;
+            line-height: 1;
         }
-        .venture-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 8px 8px 0 var(--border);
-            border-color: var(--text-dim);
+        .thesis-card h3 {
+            font-family: var(--display); font-size: 1.2rem; font-weight: 600;
+            margin-bottom: 0.75rem; letter-spacing: -0.01em; max-width: 80%;
         }
-        .venture-card:hover::before { opacity: 1; }
-        .venture-card .v-status {
+        .thesis-card p {
+            color: var(--text-dim); font-size: 0.88rem; line-height: 1.7;
+        }
+
+        /* PILLARS */
+        .pillars-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+        }
+        .pillar {
+            border: 1px solid var(--border); padding: 2rem;
+            margin: -0.5px; position: relative;
+            transition: background 0.2s;
+        }
+        .pillar:hover { background: var(--surface); }
+        .pillar .pillar-num {
+            font-family: var(--display); font-size: 0.72rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .pillar h3 {
+            font-family: var(--display); font-size: 1.15rem; font-weight: 600;
+            margin-bottom: 0.6rem; letter-spacing: -0.01em;
+        }
+        .pillar p {
+            color: var(--text-dim); font-size: 0.85rem; line-height: 1.65;
+        }
+
+        /* VENTURES / BRANDS */
+        .brand-feature {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .brand-visual {
+            background: var(--surface); border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            padding: 3rem; min-height: 320px;
+        }
+        .brand-visual img {
+            max-width: 240px; width: 100%; height: auto;
+        }
+        .brand-copy {
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 1rem 0;
+        }
+        .brand-copy .v-status {
             display: inline-flex; align-items: center; gap: 0.35rem;
             font-family: var(--label); font-size: 0.62rem; font-weight: 700;
             text-transform: uppercase; letter-spacing: 0.1em;
             margin-bottom: 1rem; width: fit-content;
-            padding: 0.25rem 0.6rem;
+            padding: 0.25rem 0.6rem; color: var(--green); border: 1px solid var(--green);
         }
-        .v-status.active { color: var(--green); border: 1px solid var(--green); }
-        .v-status.building { color: var(--accent); border: 1px solid var(--accent); }
-        .v-status.exploring { color: var(--text-dim); border: 1px solid var(--border); }
-        .v-status .v-dot {
+        .brand-copy .v-status .v-dot {
             width: 5px; height: 5px; border-radius: 50%; background: currentColor;
         }
-        .venture-card h3 {
-            font-family: var(--display); font-size: 1.35rem; font-weight: 600;
-            margin-bottom: 0.6rem; letter-spacing: -0.01em;
+        .brand-copy h3 {
+            font-family: var(--display); font-size: 1.6rem; font-weight: 600;
+            margin-bottom: 0.75rem; letter-spacing: -0.01em;
         }
-        .venture-card .v-desc {
-            color: var(--text-dim); font-size: 0.88rem; line-height: 1.65;
-            flex: 1;
+        .brand-copy p {
+            color: var(--text-dim); font-size: 0.9rem; line-height: 1.7;
+            margin-bottom: 1rem;
         }
-        .venture-card .v-meta {
-            display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.25rem;
-            padding-top: 1rem; border-top: 1px solid var(--border);
+        .brand-copy .brand-stat {
+            display: flex; gap: 2rem; margin-top: 0.5rem;
         }
-        .venture-card .v-tag {
+        .brand-copy .brand-stat .stat-item .stat-val {
+            font-family: var(--display); font-size: 1.3rem; font-weight: 600;
+            color: var(--text);
+        }
+        .brand-copy .brand-stat .stat-item .stat-lbl {
+            font-size: 0.72rem; color: var(--text-dim); margin-top: 0.15rem;
+        }
+        .brand-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+        .brand-tags .v-tag {
             font-size: 0.66rem; font-weight: 600; text-transform: uppercase;
             letter-spacing: 0.04em; color: var(--text-dim);
             padding: 0.2rem 0.55rem; border: 1px solid var(--border);
         }
-        .venture-card .v-link {
+
+        /* PIPELINE (upcoming ventures) */
+        .pipeline-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.25rem;
+        }
+        .pipeline-card {
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 1.75rem; transition: all 0.25s;
+        }
+        .pipeline-card:hover {
+            transform: translateY(-2px); box-shadow: 6px 6px 0 var(--border);
+        }
+        .pipeline-card .p-status {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            font-family: var(--label); font-size: 0.62rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            margin-bottom: 0.75rem; width: fit-content;
+            padding: 0.25rem 0.6rem;
+        }
+        .p-status.building { color: var(--accent); border: 1px solid var(--accent); }
+        .p-status.exploring { color: var(--text-dim); border: 1px solid var(--border); }
+        .p-status .v-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+        .pipeline-card h4 {
+            font-family: var(--display); font-size: 1.1rem; font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .pipeline-card p {
+            color: var(--text-dim); font-size: 0.85rem; line-height: 1.65;
+        }
+
+        /* CONSULTING */
+        .consult-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
+        }
+        .consult-card {
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 2rem; transition: all 0.2s;
+        }
+        .consult-card:hover {
+            transform: translateY(-2px); box-shadow: 6px 6px 0 var(--border);
+        }
+        .consult-card .consult-icon {
+            width: 40px; height: 40px; border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; margin-bottom: 1rem; color: var(--accent);
+        }
+        .consult-card h4 {
+            font-family: var(--display); font-size: 1.1rem; font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .consult-card p {
+            color: var(--text-dim); font-size: 0.85rem; line-height: 1.65;
+        }
+        .consult-card .consult-link {
             display: inline-flex; align-items: center; gap: 0.4rem;
-            margin-top: 1.25rem; font-size: 0.78rem; font-weight: 600;
+            margin-top: 1rem; font-size: 0.78rem; font-weight: 600;
             color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em;
         }
-        .venture-card .v-link .arrow { transition: transform 0.2s; }
-        .venture-card:hover .v-link .arrow { transform: translateX(3px); }
-        .venture-card:hover .v-link { color: var(--text); }
+        .consult-card .consult-link .arrow { transition: transform 0.2s; }
+        .consult-card:hover .consult-link .arrow { transform: translateX(3px); }
+        .consult-card:hover .consult-link { color: var(--text); }
 
-        /* EMPTY STATE */
-        .venture-card.empty {
-            border-style: dashed; background: transparent;
-            display: flex; align-items: center; justify-content: center;
-            min-height: 220px; cursor: default;
+        /* CONTACT */
+        .contact-strip {
+            text-align: center; padding: 5rem 2rem 6rem;
+            max-width: 1100px; margin: 0 auto; width: 100%;
         }
-        .venture-card.empty:hover {
-            transform: none; box-shadow: none; border-color: var(--border);
+        .contact-card {
+            background: var(--text); border: none;
+            padding: 3.5rem; max-width: 640px; margin: 0 auto;
         }
-        .venture-card.empty .empty-inner {
-            text-align: center; color: var(--text-dim);
+        .contact-card .cta-line {
+            font-family: var(--display); font-size: 1.3rem; color: var(--bg);
+            margin-bottom: 2rem; line-height: 1.4; font-style: italic;
         }
-        .venture-card.empty .empty-inner .plus {
-            font-size: 1.8rem; color: var(--border); margin-bottom: 0.5rem;
-            font-weight: 300;
+        .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .contact-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: transparent; border: 1.5px solid rgba(14,14,16,0.3);
+            padding: 0.75rem 1.5rem; font-size: 0.85rem;
+            font-weight: 600; color: var(--bg); transition: all 0.2s;
         }
-        .venture-card.empty .empty-inner p {
-            font-size: 0.78rem; letter-spacing: 0.03em;
-        }
-
-        /* ABOUT STRIP */
-        .about-strip {
-            padding: 0 2rem 6rem; max-width: 1100px; margin: 0 auto; width: 100%;
-        }
-        .about-inner {
-            border-top: 1px solid var(--border); padding-top: 2.5rem;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
-        }
-        .about-text p {
-            color: var(--text-dim); font-size: 0.9rem; line-height: 1.75;
-            margin-bottom: 1rem;
-        }
-        .about-links { display: flex; flex-direction: column; gap: 0.75rem; }
-        .about-link {
-            display: flex; align-items: center; gap: 0.75rem;
-            padding: 1rem 1.25rem; border: 1px solid var(--border);
-            background: var(--surface); transition: all 0.2s;
-            color: var(--text); font-size: 0.88rem; font-weight: 500;
-        }
-        .about-link:hover {
-            border-color: var(--text-dim); transform: translateX(4px);
-            color: var(--text);
-        }
-        .about-link .link-label {
-            font-family: var(--label); font-size: 0.62rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim);
+        .contact-link:hover {
+            background: var(--bg); border-color: var(--bg); color: var(--text);
+            transform: translateY(-2px);
         }
 
         /* FOOTER */
         footer {
             margin-top: auto; border-top: 1px solid var(--border);
-            padding: 1.5rem 2rem; text-align: center;
-            color: var(--text-dim); font-size: 0.72rem;
+            padding: 1.5rem 2rem; display: flex; justify-content: space-between;
+            align-items: center; color: var(--text-dim); font-size: 0.72rem;
+            max-width: 1100px; margin-left: auto; margin-right: auto; width: 100%;
         }
+        footer a { color: var(--text-dim); }
+        footer a:hover { color: var(--text); }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
             nav ul { display: none; }
             .hero { min-height: 60vh; padding-top: 6rem; }
-            .about-inner { grid-template-columns: 1fr; }
-            .venture-grid { grid-template-columns: 1fr; }
+            .thesis-grid { grid-template-columns: 1fr; }
+            .pillars-grid { grid-template-columns: 1fr; }
+            .brand-feature { grid-template-columns: 1fr; }
+            .consult-grid { grid-template-columns: 1fr; }
+            .pipeline-grid { grid-template-columns: 1fr; }
+            footer { flex-direction: column; gap: 0.5rem; text-align: center; }
         }
     </style>
 </head>
@@ -251,11 +333,12 @@
 <!-- NAV -->
 <nav>
     <div class="inner">
-        <a href="#" class="logo">Mitchell Ray<span>&nbsp;&#9632;</span> Ventures</a>
+        <a href="#" class="logo">Sidecar<span>&nbsp;&#9632;</span></a>
         <ul>
-            <li><a href="#ventures">Ventures</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="https://mitchellray-gh.github.io" class="back-link">&#8592; Portfolio</a></li>
+            <li><a href="#thesis">Thesis</a></li>
+            <li><a href="#brands">Brands</a></li>
+            <li><a href="#consulting">Consulting</a></li>
+            <li><a href="#contact">Contact</a></li>
         </ul>
     </div>
 </nav>
@@ -263,91 +346,188 @@
 <!-- HERO -->
 <section class="hero">
     <div class="hero-content">
-        <div class="hero-eyebrow">Ventures Hub</div>
-        <h1>What I'm<br><em>building next.</em></h1>
-        <p>Products, experiments, and services I'm building on my own time. Some are active, some are in progress, some are just ideas I'm exploring.</p>
-        <div class="hero-status">
-            <span class="dot"></span>
-            Open to collaboration
+        <div class="hero-eyebrow">Sidecar</div>
+        <h1>Turn walk-in sales<br>into <em>recurring revenue.</em></h1>
+        <p>Sidecar is a parent company building modular subscription products that help small businesses escape the transactional trap — converting unpredictable foot traffic into steady, recurring weekly revenue.</p>
+        <div class="hero-badges">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                Active &amp; building
+            </div>
+            <div class="hero-badge">
+                B2B2C &middot; SaaS &middot; Small Business
+            </div>
         </div>
     </div>
 </section>
 
-<!-- VENTURES -->
-<section class="ventures" id="ventures">
-    <div class="ventures-header">
-        <h2>Ventures</h2>
-    </div>
-
-    <div class="venture-grid">
-
-        <!-- Replace these example cards with your real ventures -->
-
-        <div class="venture-card">
-            <div class="v-status active"><span class="v-dot"></span> Active</div>
-            <h3>Venture Name</h3>
-            <p class="v-desc">Brief description of what this venture is, who it's for, and what problem it solves. Keep it to two or three sentences.</p>
-            <div class="v-meta">
-                <span class="v-tag">Tag One</span>
-                <span class="v-tag">Tag Two</span>
-            </div>
-            <a href="#" class="v-link">Visit <span class="arrow">&rarr;</span></a>
+<!-- THESIS -->
+<section class="section-wrap" id="thesis">
+    <div class="section-rule"><h2>The Thesis</h2></div>
+    <div class="thesis-grid">
+        <div class="thesis-card">
+            <span class="thesis-num">01</span>
+            <h3>The Transactional Trap</h3>
+            <p>Small businesses chase growth at all costs — discounting through coupon sites, absorbing steep customer acquisition costs, and watching lifetime value shrink. Every new customer costs more and stays for less. The harder they push, the tighter the margin gets.</p>
         </div>
-
-        <div class="venture-card">
-            <div class="v-status building"><span class="v-dot"></span> Building</div>
-            <h3>Venture Name</h3>
-            <p class="v-desc">Brief description of what this venture is, who it's for, and what problem it solves. Keep it to two or three sentences.</p>
-            <div class="v-meta">
-                <span class="v-tag">Tag One</span>
-                <span class="v-tag">Tag Two</span>
-            </div>
-            <a href="#" class="v-link">Learn more <span class="arrow">&rarr;</span></a>
+        <div class="thesis-card">
+            <span class="thesis-num">02</span>
+            <h3>Relationship Economics</h3>
+            <p>The businesses that thrive don't just acquire customers — they habituate them. When a customer subscribes, pays upfront, and returns weekly, the economics flip. Acquisition cost amortizes, revenue becomes predictable, and the business can finally plan instead of react.</p>
         </div>
-
-        <div class="venture-card">
-            <div class="v-status exploring"><span class="v-dot"></span> Exploring</div>
-            <h3>Venture Name</h3>
-            <p class="v-desc">Brief description of what this venture is, who it's for, and what problem it solves. Keep it to two or three sentences.</p>
-            <div class="v-meta">
-                <span class="v-tag">Tag One</span>
-                <span class="v-tag">Tag Two</span>
-            </div>
-        </div>
-
-        <div class="venture-card empty">
-            <div class="empty-inner">
-                <div class="plus">+</div>
-                <p>Next venture</p>
-            </div>
-        </div>
-
     </div>
 </section>
 
-<!-- ABOUT -->
-<section class="about-strip" id="about">
-    <div class="about-inner">
-        <div class="about-text">
-            <p>This is where I keep the work that doesn't fit neatly into a portfolio. Side projects, experiments, products I'm building or thinking about building. Some of these may become something. Some are just for learning.</p>
-            <p>If any of this is interesting to you, I'm always open to conversation.</p>
+<!-- THREE PILLARS -->
+<section class="section-wrap" id="pillars">
+    <div class="section-rule"><h2>Three Pillars of Financial Health</h2></div>
+    <div class="pillars-grid">
+        <div class="pillar">
+            <div class="pillar-num">Pillar 01</div>
+            <h3>Cash Flow Stabilization</h3>
+            <p>Upfront subscription payments replace the feast-or-famine cycle of walk-in sales. Businesses know what's coming in each week before it arrives.</p>
         </div>
-        <div class="about-links">
-            <a href="mailto:mitchray1999@gmail.com" class="about-link">
-                <span class="link-label">Email</span> mitchray1999@gmail.com
-            </a>
-            <a href="https://www.linkedin.com/in/mitchell-ray-41baa2330" class="about-link" target="_blank" rel="noopener">
-                <span class="link-label">LinkedIn</span> Mitchell Ray
-            </a>
-            <a href="https://mitchellray-gh.github.io" class="about-link">
-                <span class="link-label">Portfolio</span> mitchellray-gh.github.io
-            </a>
+        <div class="pillar">
+            <div class="pillar-num">Pillar 02</div>
+            <h3>Negative Churn</h3>
+            <p>Expansion revenue through upsells, cross-sells, and usage-based tiers means existing customers grow — not just stay. Revenue compounds even when acquisition pauses.</p>
+        </div>
+        <div class="pillar">
+            <div class="pillar-num">Pillar 03</div>
+            <h3>Customer Habituation</h3>
+            <p>Subscription rhythms build routine. Customers who come weekly don't need to be re-sold — they've already decided. Retention stops being a metric and becomes the default.</p>
+        </div>
+    </div>
+</section>
+
+<!-- BRANDS -->
+<section class="section-wrap" id="brands">
+    <div class="section-rule"><h2>Brands</h2></div>
+
+    <!-- Replate Feature -->
+    <div class="brand-feature">
+        <div class="brand-visual">
+            <img src="replate.png" alt="Replate by Sidecar">
+        </div>
+        <div class="brand-copy">
+            <div class="v-status"><span class="v-dot"></span> Active</div>
+            <h3>Replate by Sidecar</h3>
+            <p>Our hospitality case study. A subscription-powered platform that turns restaurant foot traffic into recurring weekly revenue — giving diners a reason to come back and operators a reason to plan ahead.</p>
+            <div class="brand-stat">
+                <div class="stat-item">
+                    <div class="stat-val">Hospitality</div>
+                    <div class="stat-lbl">Vertical</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val">B2B2C</div>
+                    <div class="stat-lbl">Model</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val">Live</div>
+                    <div class="stat-lbl">Status</div>
+                </div>
+            </div>
+            <div class="brand-tags">
+                <span class="v-tag">Subscription</span>
+                <span class="v-tag">Recurring Revenue</span>
+                <span class="v-tag">Small Business</span>
+                <span class="v-tag">Hospitality</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pipeline -->
+    <div style="margin-top:3rem;">
+        <div class="section-rule"><h2>Pipeline</h2></div>
+        <div class="pipeline-grid">
+            <div class="pipeline-card">
+                <div class="p-status building"><span class="v-dot"></span> Building</div>
+                <h4>Retail Vertical</h4>
+                <p>Adapting the Sidecar model for retail — subscription loyalty programs that give independent retailers predictable revenue and repeat customers.</p>
+            </div>
+            <div class="pipeline-card">
+                <div class="p-status building"><span class="v-dot"></span> Building</div>
+                <h4>Wellness Vertical</h4>
+                <p>Subscriptions for wellness businesses — studios, salons, and service providers that thrive on repeat visits but currently rely on one-off bookings.</p>
+            </div>
+            <div class="pipeline-card">
+                <div class="p-status exploring"><span class="v-dot"></span> Exploring</div>
+                <h4>Treasury Analytics</h4>
+                <p>Real-time dashboards for tracking LTV:CAC payback, retention curves, and unit economics across every Sidecar vertical.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Benchmarks -->
+    <div style="margin-top:3rem;">
+        <div class="section-rule"><h2>Unit Economics Targets</h2></div>
+        <div class="pillars-grid">
+            <div class="pillar">
+                <div class="pillar-num">Target</div>
+                <h3>3:1 LTV:CAC</h3>
+                <p>Healthy ratio ensuring customer lifetime value meaningfully exceeds acquisition cost — the foundation of sustainable growth.</p>
+            </div>
+            <div class="pillar">
+                <div class="pillar-num">Target</div>
+                <h3>&lt; 12-Month Payback</h3>
+                <p>Sub-12-month CAC payback period — cash flow positive on each customer within the first year, not the third.</p>
+            </div>
+            <div class="pillar">
+                <div class="pillar-num">Target</div>
+                <h3>Retention-Driven Valuation</h3>
+                <p>Strong retention multiples drive enterprise valuation. Retention is not just an operating metric — it's the valuation multiplier.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONSULTING -->
+<section class="section-wrap" id="consulting">
+    <div class="section-rule"><h2>Consulting</h2></div>
+    <p style="color:var(--text-dim);font-size:0.95rem;line-height:1.7;max-width:640px;margin-bottom:2rem;">I help small businesses and early-stage companies design subscription models, build financial dashboards, and architect the systems that make recurring revenue actually work.</p>
+    <div class="consult-grid">
+        <div class="consult-card">
+            <div class="consult-icon">&#9670;</div>
+            <h4>Subscription Strategy</h4>
+            <p>Design pricing, tiers, and retention mechanics for businesses moving from transactional to recurring revenue models.</p>
+            <a href="mailto:mitchray1999@gmail.com?subject=Consulting%20%E2%80%94%20Subscription%20Strategy" class="consult-link">Start a conversation <span class="arrow">&rarr;</span></a>
+        </div>
+        <div class="consult-card">
+            <div class="consult-icon">&#9670;</div>
+            <h4>Financial Modeling</h4>
+            <p>Build LTV:CAC tracking, payback analysis, and treasury dashboards that give you real-time visibility into unit economics.</p>
+            <a href="mailto:mitchray1999@gmail.com?subject=Consulting%20%E2%80%94%20Financial%20Modeling" class="consult-link">Start a conversation <span class="arrow">&rarr;</span></a>
+        </div>
+        <div class="consult-card">
+            <div class="consult-icon">&#9670;</div>
+            <h4>Data &amp; AI Architecture</h4>
+            <p>End-to-end systems — pipelines, models, retrieval layers, and the interfaces that make governed data actually useful.</p>
+            <a href="mailto:mitchray1999@gmail.com?subject=Consulting%20%E2%80%94%20Data%20%26%20AI" class="consult-link">Start a conversation <span class="arrow">&rarr;</span></a>
+        </div>
+        <div class="consult-card">
+            <div class="consult-icon">&#9670;</div>
+            <h4>B2B2C Partnerships</h4>
+            <p>Structure partnerships where Sidecar's platform powers your customer retention — white-label or co-branded.</p>
+            <a href="mailto:mitchray1999@gmail.com?subject=Consulting%20%E2%80%94%20B2B2C%20Partnership" class="consult-link">Start a conversation <span class="arrow">&rarr;</span></a>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-strip" id="contact">
+    <div class="section-rule" style="text-align:left;"><h2>Contact</h2></div>
+    <div class="contact-card">
+        <p class="cta-line">Interested in Sidecar, Replate, or working together? Let's talk.</p>
+        <div class="contact-links">
+            <a href="mailto:mitchray1999@gmail.com" class="contact-link">mitchray1999@gmail.com</a>
+            <a href="https://www.linkedin.com/in/mitchell-ray-41baa2330" class="contact-link" target="_blank" rel="noopener">LinkedIn</a>
         </div>
     </div>
 </section>
 
 <footer>
-    &copy; Mitchell Ray Ventures
+    <span>&copy; Sidecar. All rights reserved.</span>
+    <a href="https://mitchellray-gh.github.io">Portfolio &rarr;</a>
 </footer>
 
 </body>
