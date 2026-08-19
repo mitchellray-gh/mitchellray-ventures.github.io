@@ -255,6 +255,40 @@
             color: var(--text-dim); font-size: 0.85rem; line-height: 1.65;
         }
 
+        /* IN-FLIGHT PRODUCTS */
+        .product-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.25rem;
+        }
+        .product-card {
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 1.75rem; transition: all 0.25s; display: flex; flex-direction: column;
+            color: var(--text);
+        }
+        .product-card:hover {
+            transform: translateY(-2px); box-shadow: 6px 6px 0 var(--border);
+        }
+        .product-logo {
+            background: #fff; border: 1px solid var(--border);
+            padding: 1rem 1.25rem; margin-bottom: 1.25rem;
+            display: flex; align-items: center; justify-content: center; min-height: 84px;
+        }
+        .product-logo img { max-width: 100%; height: 52px; width: auto; }
+        .product-card h4 {
+            font-family: var(--display); font-size: 1.15rem; font-weight: 600;
+            margin: 0.5rem 0; letter-spacing: -0.01em;
+        }
+        .product-card p {
+            color: var(--text-dim); font-size: 0.85rem; line-height: 1.65; flex: 1;
+        }
+        .product-link {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            margin-top: 1rem; font-size: 0.78rem; font-weight: 600;
+            color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em;
+        }
+        .product-link .arrow { transition: transform 0.2s; }
+        .product-card:hover .product-link .arrow { transform: translateX(3px); }
+
         /* CONSULTING */
         .consult-grid {
             display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
@@ -333,6 +367,7 @@
             .brand-feature { grid-template-columns: 1fr; }
             .consult-grid { grid-template-columns: 1fr; }
             .pipeline-grid { grid-template-columns: 1fr; }
+            .product-grid { grid-template-columns: 1fr; }
             footer { flex-direction: column; gap: 0.5rem; text-align: center; }
         }
     </style>
@@ -469,6 +504,40 @@
                 <h4>Treasury Analytics</h4>
                 <p>Real-time dashboards for tracking LTV:CAC payback, retention curves, and unit economics across every Sidecar vertical.</p>
             </div>
+        </div>
+    </div>
+
+    <!-- In-Flight Products -->
+    <div style="margin-top:3rem;">
+        <div class="section-rule"><h2>In-Flight Products</h2></div>
+        <div class="product-grid">
+            <a class="product-card" href="drainageplanner.html">
+                <div class="product-logo">
+                    <img src="drainage%20planner.svg" alt="DrainagePlanner Pro">
+                </div>
+                <div class="p-status building"><span class="v-dot"></span> Building</div>
+                <h4>DrainagePlanner Pro</h4>
+                <p>An integrated yard drainage planner that blends construction management, land surveying, and landscape design into a single opinionated toolset — with interactive maps, GPS elevation, and print-ready reports.</p>
+                <span class="product-link">View product <span class="arrow">&rarr;</span></span>
+            </a>
+            <a class="product-card" href="churnpilot.html">
+                <div class="product-logo">
+                    <img src="churn%20pilot.svg" alt="ChurnPilot">
+                </div>
+                <div class="p-status building"><span class="v-dot"></span> Building</div>
+                <h4>ChurnPilot</h4>
+                <p>An offer scanner that surfaces high-value bank and credit card offers, estimates profit-per-action, and pairs a live news feed with an extensible affiliate-ready engine.</p>
+                <span class="product-link">View product <span class="arrow">&rarr;</span></span>
+            </a>
+            <a class="product-card" href="contextforge.html">
+                <div class="product-logo">
+                    <img src="context%20forge.svg" alt="ContextForge">
+                </div>
+                <div class="p-status building"><span class="v-dot"></span> Building</div>
+                <h4>ContextForge</h4>
+                <p>A micro-SaaS that transforms URLs, raw text, and GitHub files into token-efficient Markdown context packs for LLMs — secure by default with per-user Row Level Security.</p>
+                <span class="product-link">View product <span class="arrow">&rarr;</span></span>
+            </a>
         </div>
     </div>
 

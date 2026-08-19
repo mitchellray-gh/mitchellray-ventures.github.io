@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChurnPilot — Sidecar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap');
+        :root {
+            --bg: #0e0e10; --surface: #18181b; --surface-2: #1e1e22; --border: #27272a;
+            --text: #fafafa; --text-dim: #a1a1aa; --accent: #10b981; --accent-light: #34d399;
+            --green: #22c55e;
+            --font: 'Inter', system-ui, -apple-system, sans-serif;
+            --display: 'Fraunces', Georgia, serif;
+            --label: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font); background: var(--bg); color: var(--text);
+            line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh;
+            display: flex; flex-direction: column; }
+        a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+        a:hover { color: var(--accent-light); }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(14,14,16,0.85); backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border); padding: 0 2rem; }
+        nav .inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center;
+            justify-content: space-between; height: 60px; }
+        nav .logo { font-family: var(--display); font-weight: 700; font-size: 1.1rem;
+            color: var(--text); letter-spacing: -0.01em; }
+        nav .logo span { color: var(--accent); }
+        nav .back { color: var(--text-dim); font-size: 0.78rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.05em; }
+        nav .back:hover { color: var(--text); }
+        .section-wrap { padding: 3rem 2rem; max-width: 1000px; margin: 0 auto; width: 100%; }
+        .section-rule { border-top: 2px solid var(--text); padding-top: 0.75rem; margin-bottom: 2rem; }
+        .section-rule h2 { font-family: var(--label); font-size: 0.72rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.12em; color: var(--text); }
+        .hero { padding: 8rem 2rem 3rem; max-width: 1000px; margin: 0 auto; width: 100%; }
+        .hero-logo { background: #fff; border: 1px solid var(--border); padding: 2rem 2.5rem;
+            margin-bottom: 2rem; display: flex; align-items: center; min-height: 130px; }
+        .hero-logo img { max-width: 420px; width: 100%; height: auto; }
+        .hero-status { display: inline-flex; align-items: center; gap: 0.35rem;
+            font-family: var(--label); font-size: 0.62rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;
+            padding: 0.25rem 0.6rem; color: var(--accent); border: 1px solid var(--accent); }
+        .hero-status .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor;
+            animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .hero h1 { font-family: var(--display); font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-weight: 600; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1rem; }
+        .hero p { font-size: 1.1rem; color: var(--text-dim); max-width: 640px; line-height: 1.7; }
+        .meta-strip { display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 2rem;
+            padding-top: 1.5rem; border-top: 1px solid var(--border); }
+        .meta-item .meta-val { font-family: var(--display); font-size: 1.15rem; font-weight: 600; }
+        .meta-item .meta-lbl { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.15rem;
+            text-transform: uppercase; letter-spacing: 0.06em; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1.25rem; }
+        .feature-card { background: var(--surface); border: 1px solid var(--border); padding: 1.75rem; }
+        .feature-card .fi { font-size: 1.2rem; margin-bottom: 0.75rem; color: var(--accent); }
+        .feature-card h3 { font-family: var(--display); font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .feature-card p { color: var(--text-dim); font-size: 0.85rem; line-height: 1.65; }
+        .list-clean { list-style: none; display: grid; gap: 0.85rem; }
+        .list-clean li { display: flex; gap: 0.75rem; color: var(--text-dim);
+            font-size: 0.92rem; line-height: 1.6; }
+        .list-clean li::before { content: '\25B8'; color: var(--accent); font-size: 0.9rem; flex-shrink: 0; }
+        .list-clean li strong { color: var(--text); font-weight: 600; }
+        .code-block { background: var(--surface); border: 1px solid var(--border);
+            padding: 1.5rem; font-family: 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 0.82rem; color: var(--text-dim); overflow-x: auto; line-height: 1.8; }
+        .code-block .cmt { color: #52525b; }
+        .code-block .cmd { color: var(--accent-light); }
+        .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;
+            font-size: 0.85rem; font-weight: 600; border: 1.5px solid var(--accent); color: var(--accent);
+            transition: all 0.2s; }
+        .btn:hover { background: var(--accent); color: var(--bg); }
+        .btn.solid { background: var(--accent); color: var(--bg); }
+        .btn.solid:hover { background: var(--accent-light); border-color: var(--accent-light); color: var(--bg); }
+        .note { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+            padding: 1.25rem 1.5rem; color: var(--text-dim); font-size: 0.88rem; line-height: 1.7; }
+        footer { margin-top: auto; border-top: 1px solid var(--border); padding: 1.5rem 2rem;
+            display: flex; justify-content: space-between; align-items: center; color: var(--text-dim);
+            font-size: 0.72rem; max-width: 1000px; margin-left: auto; margin-right: auto; width: 100%; }
+        footer a { color: var(--text-dim); } footer a:hover { color: var(--text); }
+        @media (max-width: 768px) { .meta-strip { gap: 1.25rem; } footer { flex-direction: column; gap: 0.5rem; text-align: center; } }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="inner">
+        <a href="index.html" class="logo">Sidecar<span>&nbsp;&#9632;</span></a>
+        <a href="index.html#brands" class="back">&larr; All Products</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-logo"><img src="churn%20pilot.svg" alt="ChurnPilot"></div>
+    <div class="hero-status"><span class="dot"></span> In-Flight &middot; Building</div>
+    <h1>Scan every offer.<br>Fly to the profit.</h1>
+    <p>ChurnPilot scans for credit card and bank account offers and surfaces an estimated profit-per-action — a scaffold built to extend with real scrapers and affiliate API integrations, backed by a live financial news feed.</p>
+    <div class="meta-strip">
+        <div class="meta-item"><div class="meta-val">Flask + Next.js</div><div class="meta-lbl">Stack</div></div>
+        <div class="meta-item"><div class="meta-val">Python / JS</div><div class="meta-lbl">Languages</div></div>
+        <div class="meta-item"><div class="meta-val">Fintech</div><div class="meta-lbl">Vertical</div></div>
+        <div class="meta-item"><div class="meta-val">Prototype</div><div class="meta-lbl">Stage</div></div>
+    </div>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>What It Does</h2></div>
+    <div class="feature-grid">
+        <div class="feature-card"><div class="fi">&#9673;</div><h3>Offer Scanner</h3><p>Scans bank account and credit card offers and ranks them by estimated profit per action.</p></div>
+        <div class="feature-card"><div class="fi">&#9650;</div><h3>Profit Estimation</h3><p>Estimates payout and value per offer so you can prioritize the highest-return moves first.</p></div>
+        <div class="feature-card"><div class="fi">&#9744;</div><h3>Live News Feed</h3><p>Integrates a live news feed for bank and credit card offers to keep opportunities current.</p></div>
+        <div class="feature-card"><div class="fi">&#9671;</div><h3>Extensible Engine</h3><p>Designed as a scaffold — plug in affiliate partner APIs or compliant scrapers to go live.</p></div>
+        <div class="feature-card"><div class="fi">&#9635;</div><h3>Mock-Data Ready</h3><p>Ships with sample offers so the full flow runs instantly, with a clean path to real data.</p></div>
+        <div class="feature-card"><div class="fi">&#9873;</div><h3>Tested API</h3><p>Pytest-covered API endpoints with a minimal, refreshable frontend UI.</p></div>
+    </div>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>Roadmap</h2></div>
+    <ul class="list-clean">
+        <li><strong>Affiliate integrations</strong> — replace mock data with partner APIs and compliant sourcing.</li>
+        <li><strong>Auth &amp; rate-limiting</strong> — user accounts, persistence, and scheduled scanning.</li>
+        <li><strong>Data enrichment</strong> — estimate conversion rates and payouts with historical tracking and A/B testing.</li>
+        <li><strong>Attribution</strong> — track which offers convert to refine the profit model over time.</li>
+    </ul>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>Quick Start</h2></div>
+    <div class="code-block">
+<span class="cmt"># create and activate a venv</span><br>
+<span class="cmd">python3 -m venv .venv</span><br>
+<span class="cmd">source .venv/bin/activate</span><br><br>
+<span class="cmt"># install dependencies and run</span><br>
+<span class="cmd">pip install -r requirements.txt</span><br>
+<span class="cmd">python app.py</span><br><br>
+<span class="cmt"># open http://127.0.0.1:5000</span>
+    </div>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>Responsible By Design</h2></div>
+    <div class="note">Scraping some sites can violate terms of service. ChurnPilot prefers official APIs and partner/affiliate programs, and respects robots.txt and partner terms — with legal guidance recommended before any production sourcing.</div>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>Explore</h2></div>
+    <div class="cta-row">
+        <a href="https://churn-pilot.vercel.app" class="btn solid" target="_blank" rel="noopener">Live Demo &rarr;</a>
+        <a href="https://github.com/mitchellray-gh/ChurnPilot" class="btn" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+</section>
+
+<footer>
+    <span>&copy; Sidecar. All rights reserved.</span>
+    <a href="index.html">&larr; Back to Sidecar</a>
+</footer>
+</body>
+</html>

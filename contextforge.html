@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContextForge — Sidecar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap');
+        :root {
+            --bg: #0e0e10; --surface: #18181b; --surface-2: #1e1e22; --border: #27272a;
+            --text: #fafafa; --text-dim: #a1a1aa; --accent: #f97316; --accent-light: #fb923c;
+            --green: #22c55e;
+            --font: 'Inter', system-ui, -apple-system, sans-serif;
+            --display: 'Fraunces', Georgia, serif;
+            --label: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font); background: var(--bg); color: var(--text);
+            line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh;
+            display: flex; flex-direction: column; }
+        a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+        a:hover { color: var(--accent-light); }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(14,14,16,0.85); backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border); padding: 0 2rem; }
+        nav .inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center;
+            justify-content: space-between; height: 60px; }
+        nav .logo { font-family: var(--display); font-weight: 700; font-size: 1.1rem;
+            color: var(--text); letter-spacing: -0.01em; }
+        nav .logo span { color: var(--accent); }
+        nav .back { color: var(--text-dim); font-size: 0.78rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.05em; }
+        nav .back:hover { color: var(--text); }
+        .section-wrap { padding: 3rem 2rem; max-width: 1000px; margin: 0 auto; width: 100%; }
+        .section-rule { border-top: 2px solid var(--text); padding-top: 0.75rem; margin-bottom: 2rem; }
+        .section-rule h2 { font-family: var(--label); font-size: 0.72rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.12em; color: var(--text); }
+        .hero { padding: 8rem 2rem 3rem; max-width: 1000px; margin: 0 auto; width: 100%; }
+        .hero-logo { background: #fff; border: 1px solid var(--border); padding: 2rem 2.5rem;
+            margin-bottom: 2rem; display: flex; align-items: center; min-height: 130px; }
+        .hero-logo img { max-width: 420px; width: 100%; height: auto; }
+        .hero-status { display: inline-flex; align-items: center; gap: 0.35rem;
+            font-family: var(--label); font-size: 0.62rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;
+            padding: 0.25rem 0.6rem; color: var(--accent); border: 1px solid var(--accent); }
+        .hero-status .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor;
+            animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .hero h1 { font-family: var(--display); font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-weight: 600; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1rem; }
+        .hero h1 em { font-style: italic; color: var(--accent); }
+        .hero p { font-size: 1.1rem; color: var(--text-dim); max-width: 640px; line-height: 1.7; }
+        .meta-strip { display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 2rem;
+            padding-top: 1.5rem; border-top: 1px solid var(--border); }
+        .meta-item .meta-val { font-family: var(--display); font-size: 1.15rem; font-weight: 600; }
+        .meta-item .meta-lbl { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.15rem;
+            text-transform: uppercase; letter-spacing: 0.06em; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1.25rem; }
+        .feature-card { background: var(--surface); border: 1px solid var(--border); padding: 1.75rem; }
+        .feature-card .fi { font-size: 1.2rem; margin-bottom: 0.75rem; color: var(--accent); }
+        .feature-card h3 { font-family: var(--display); font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .feature-card p { color: var(--text-dim); font-size: 0.85rem; line-height: 1.65; }
+        .list-clean { list-style: none; display: grid; gap: 0.85rem; }
+        .list-clean li { display: flex; gap: 0.75rem; color: var(--text-dim);
+            font-size: 0.92rem; line-height: 1.6; }
+        .list-clean li::before { content: '\25B8'; color: var(--accent); font-size: 0.9rem; flex-shrink: 0; }
+        .list-clean li strong { color: var(--text); font-weight: 600; }
+        .code-block { background: var(--surface); border: 1px solid var(--border);
+            padding: 1.5rem; font-family: 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 0.82rem; color: var(--text-dim); overflow-x: auto; line-height: 1.8; }
+        .code-block .cmt { color: #52525b; }
+        .code-block .cmd { color: var(--accent-light); }
+        .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;
+            font-size: 0.85rem; font-weight: 600; border: 1.5px solid var(--accent); color: var(--accent);
+            transition: all 0.2s; }
+        .btn:hover { background: var(--accent); color: var(--bg); }
+        .btn.solid { background: var(--accent); color: var(--bg); }
+        .btn.solid:hover { background: var(--accent-light); border-color: var(--accent-light); color: var(--bg); }
+        footer { margin-top: auto; border-top: 1px solid var(--border); padding: 1.5rem 2rem;
+            display: flex; justify-content: space-between; align-items: center; color: var(--text-dim);
+            font-size: 0.72rem; max-width: 1000px; margin-left: auto; margin-right: auto; width: 100%; }
+        footer a { color: var(--text-dim); } footer a:hover { color: var(--text); }
+        @media (max-width: 768px) { .meta-strip { gap: 1.25rem; } footer { flex-direction: column; gap: 0.5rem; text-align: center; } }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="inner">
+        <a href="index.html" class="logo">Sidecar<span>&nbsp;&#9632;</span></a>
+        <a href="index.html#brands" class="back">&larr; All Products</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-logo"><img src="context%20forge.svg" alt="ContextForge"></div>
+    <div class="hero-status"><span class="dot"></span> In-Flight &middot; Building</div>
+    <h1>Messy inputs in.<br><em>Optimized</em> context out.</h1>
+    <p>ContextForge is a micro-SaaS that ingests URLs, raw text, and GitHub files and forges them into clean, token-efficient Markdown context packs ready to paste into — or stream to — any large language model.</p>
+    <div class="meta-strip">
+        <div class="meta-item"><div class="meta-val">Next.js 16</div><div class="meta-lbl">Framework</div></div>
+        <div class="meta-item"><div class="meta-val">TypeScript</div><div class="meta-lbl">Language</div></div>
+        <div class="meta-item"><div class="meta-val">Supabase</div><div class="meta-lbl">DB &amp; Auth</div></div>
+        <div class="meta-item"><div class="meta-val">AI Tooling</div><div class="meta-lbl">Vertical</div></div>
+    </div>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>What It Does</h2></div>
+    <div class="feature-grid">
+        <div class="feature-card"><div class="fi">&#9670;</div><h3>Multi-Source Ingestion</h3><p>GitHub files, URL scrapes, raw text, and Notion (schema-ready) all flow into one pipeline.</p></div>
+        <div class="feature-card"><div class="fi">&#9635;</div><h3>Optimized Packs</h3><p>Outputs clean Markdown with a token count for precise budgeting against any model window.</p></div>
+        <div class="feature-card"><div class="fi">&#9919;</div><h3>Secure By Default</h3><p>Every table is protected with Row Level Security — users only ever see their own data.</p></div>
+        <div class="feature-card"><div class="fi">&#9678;</div><h3>OAuth Sign-In</h3><p>GitHub and Google auth via Supabase, with sessions kept fresh on every request.</p></div>
+        <div class="feature-card"><div class="fi">&#9650;</div><h3>Server-First</h3><p>React Server Components and Server Actions throughout; client code only where needed.</p></div>
+        <div class="feature-card"><div class="fi">&#9633;</div><h3>SSRF Guarded</h3><p>Accurate token counting and budget-aware packs, hardened against server-side request forgery.</p></div>
+    </div>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>Roadmap</h2></div>
+    <ul class="list-clean">
+        <li><strong>Dashboard</strong> — list, create, and view context packs.</li>
+        <li><strong>Generate-pack engine</strong> — GitHub / URL / raw text into optimized Markdown.</li>
+        <li><strong>Token budgeting UI</strong> — pack against a target model window.</li>
+        <li><strong>MCP export</strong> — Model Context Protocol via the official SDK.</li>
+        <li><strong>Vitest coverage</strong> — unit tests for parsing and database logic.</li>
+    </ul>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>Quick Start</h2></div>
+    <div class="code-block">
+<span class="cmt"># clone and install</span><br>
+<span class="cmd">git clone https://github.com/mitchellray-gh/ContextForge.git</span><br>
+<span class="cmd">cd ContextForge &amp;&amp; npm install</span><br><br>
+<span class="cmt"># configure environment, then run</span><br>
+<span class="cmd">cp .env.example .env.local</span><br>
+<span class="cmd">npm run dev</span><br><br>
+<span class="cmt"># open http://localhost:3000</span>
+    </div>
+</section>
+
+<section class="section-wrap">
+    <div class="section-rule"><h2>Explore</h2></div>
+    <div class="cta-row">
+        <a href="https://context-forge-sable.vercel.app" class="btn solid" target="_blank" rel="noopener">Live Demo &rarr;</a>
+        <a href="https://github.com/mitchellray-gh/ContextForge" class="btn" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+</section>
+
+<footer>
+    <span>&copy; Sidecar. All rights reserved.</span>
+    <a href="index.html">&larr; Back to Sidecar</a>
+</footer>
+</body>
+</html>
