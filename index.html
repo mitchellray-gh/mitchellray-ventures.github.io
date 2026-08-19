@@ -53,9 +53,11 @@
             height: 60px;
         }
         nav .logo {
+            display: flex; align-items: center; gap: 0.6rem;
             font-family: var(--display); font-weight: 700; font-size: 1.1rem;
             color: var(--text); letter-spacing: -0.01em;
         }
+        nav .logo img { height: 28px; width: auto; }
         nav .logo span { color: var(--accent); }
         nav ul { list-style: none; display: flex; gap: 1.5rem; align-items: center; }
         nav ul li a {
@@ -333,7 +335,7 @@
 <!-- NAV -->
 <nav>
     <div class="inner">
-        <a href="#" class="logo">Sidecar<span>&nbsp;&#9632;</span></a>
+        <a href="#" class="logo"><img src="sidecar.jpeg" alt="Sidecar">Sidecar<span>&nbsp;&#9632;</span></a>
         <ul>
             <li><a href="#thesis">Thesis</a></li>
             <li><a href="#brands">Brands</a></li>
@@ -346,6 +348,9 @@
 <!-- HERO -->
 <section class="hero">
     <div class="hero-content">
+        <div class="hero-logo-mark">
+            <img src="sidecar.jpeg" alt="Sidecar" style="height:64px;width:auto;">
+        </div>
         <div class="hero-eyebrow">Sidecar</div>
         <h1>Turn walk-in sales<br>into <em>recurring revenue.</em></h1>
         <p>Sidecar is a parent company building modular subscription products that help small businesses escape the transactional trap — converting unpredictable foot traffic into steady, recurring weekly revenue.</p>
