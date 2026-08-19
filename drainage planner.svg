@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120" width="100%" height="100%">
+  <!-- Gradients & Definitions -->
+  <defs>
+    <linearGradient id="waterFlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0ea5e9" /> <!-- Tailwind Sky 500 -->
+      <stop offset="100%" stop-color="#0284c7" /> <!-- Tailwind Sky 600 -->
+    </linearGradient>
+    <linearGradient id="ecoTech" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" /> <!-- Tailwind Emerald 500 -->
+      <stop offset="100%" stop-color="#059669" /> <!-- Tailwind Emerald 600 -->
+    </linearGradient>
+  </defs>
+
+  <!-- Logo Icon: Topography & Survey Nodes -->
+  <g transform="translate(15, 20)">
+    <!-- Top layer: Landscape/Elevation line -->
+    <path d="M10 35 Q 25 15, 45 35 T 80 35" fill="none" stroke="url(#ecoTech)" stroke-width="6" stroke-linecap="round"/>
+    
+    <!-- Middle layer: Primary drainage/water flow -->
+    <path d="M10 52 Q 25 32, 45 52 T 80 52" fill="none" stroke="url(#waterFlow)" stroke-width="6" stroke-linecap="round"/>
+    
+    <!-- Bottom layer: Ground/Subsurface -->
+    <path d="M10 69 Q 25 49, 45 69 T 80 69" fill="none" stroke="#94a3b8" stroke-width="6" stroke-linecap="round" opacity="0.5"/>
+
+    <!-- Data/Survey Points -->
+    <circle cx="10" cy="35" r="5" fill="#1e293b" />
+    <circle cx="45" cy="52" r="5" fill="#1e293b" />
+    <circle cx="80" cy="69" r="5" fill="#1e293b" />
+  </g>
+
+  <!-- Typography (Including requested text) -->
+  <text x="120" y="70" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="42" fill="#0f172a" letter-spacing="-0.5">
+    <tspan font-weight="800">Drainage</tspan><tspan font-weight="300">Planner</tspan>
+  </text>
+
+  <!-- App Version Subtitle -->
+  <text x="123" y="94" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#64748b" font-weight="700" letter-spacing="4">
+    PRO EDITION
+  </text>
+</svg>
