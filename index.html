@@ -79,12 +79,17 @@
             min-height: 85vh; display: flex; align-items: center;
             padding: 8rem 2rem 4rem; max-width: 1100px; margin: 0 auto; width: 100%;
         }
+        .hero-inner {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; width: 100%;
+        }
         .hero-content { max-width: 740px; }
         .hero-logo-mark {
-            display: inline-block; margin-bottom: 1.5rem;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 2.5rem; min-height: 300px;
         }
         .hero-logo-mark img {
-            height: 80px; width: auto; border-radius: 4px;
+            max-width: 100%; height: auto; border-radius: 4px;
         }
         .hero-eyebrow {
             font-family: var(--label); font-size: 0.68rem; font-weight: 700;
@@ -320,7 +325,9 @@
         /* RESPONSIVE */
         @media (max-width: 768px) {
             nav ul { display: none; }
-            .hero { min-height: 60vh; padding-top: 6rem; }
+            .hero { min-height: auto; padding-top: 6rem; }
+            .hero-inner { grid-template-columns: 1fr; }
+            .hero-logo-mark { min-height: 200px; }
             .thesis-grid { grid-template-columns: 1fr; }
             .pillars-grid { grid-template-columns: 1fr; }
             .brand-feature { grid-template-columns: 1fr; }
@@ -347,21 +354,23 @@
 
 <!-- HERO -->
 <section class="hero">
-    <div class="hero-content">
+    <div class="hero-inner">
+        <div class="hero-content">
+            <div class="hero-eyebrow">Sidecar</div>
+            <h1>Turn walk-in sales<br>into <em>recurring revenue.</em></h1>
+            <p>Sidecar is a parent company building modular subscription products that help small businesses escape the transactional trap — converting unpredictable foot traffic into steady, recurring weekly revenue.</p>
+            <div class="hero-badges">
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    Active &amp; building
+                </div>
+                <div class="hero-badge">
+                    B2B2C &middot; SaaS &middot; Small Business
+                </div>
+            </div>
+        </div>
         <div class="hero-logo-mark">
             <img src="sidecar.jpeg" alt="Sidecar">
-        </div>
-        <div class="hero-eyebrow">Sidecar</div>
-        <h1>Turn walk-in sales<br>into <em>recurring revenue.</em></h1>
-        <p>Sidecar is a parent company building modular subscription products that help small businesses escape the transactional trap — converting unpredictable foot traffic into steady, recurring weekly revenue.</p>
-        <div class="hero-badges">
-            <div class="hero-badge">
-                <span class="dot"></span>
-                Active &amp; building
-            </div>
-            <div class="hero-badge">
-                B2B2C &middot; SaaS &middot; Small Business
-            </div>
         </div>
     </div>
 </section>
